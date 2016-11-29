@@ -1,5 +1,6 @@
 {
     "name": "kamego/grids",
+	"version": "1.0",
     "description": "A simple library to present data using grids.",
     "type": "library",
     "license": "GNU",
