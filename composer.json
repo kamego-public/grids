@@ -1,0 +1,10 @@
+{
+    "name": "kamego/grids",
+    "description": "A simple library to present data using grids.",
+    "type": "library",
+    "license": "GNU",
+    "minimum-stability": "dev",
+    "require": {
+		"php": ">=5.0.0"
+	}
+}
