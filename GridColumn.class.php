@@ -9,6 +9,8 @@
  * @see Grid
  */
 
+namespace Kamego\Grids;
+
 class GridColumn
 {
 

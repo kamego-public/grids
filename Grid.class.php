@@ -9,7 +9,7 @@
  *  a simple HTML grid with the passed columns and data.
  */
 
-include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'GridColumn.class.php');
+namespace Kamego\Grids;
 
 class Grid
 {
