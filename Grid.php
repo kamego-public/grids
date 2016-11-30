@@ -32,6 +32,9 @@ class Grid
 	/** @var Recordset Grid data. */
 	private $data;
 
+	/** @var int Grid width percentage. */
+	private $width;
+
 	/**
 	 * Constructor.
 	 * @param $id string Grid id.
@@ -45,6 +48,7 @@ class Grid
 		$this->title = $title;
 		$this->columns = $columns;
 		$this->data = $data;
+		$this->width = null;
 	}
 
 	/**
@@ -54,6 +58,22 @@ class Grid
 	public function setTotalColumnId($columnId)
 	{
 		$this->totalColumnId = $columnId;
+	}
+
+	/**
+	 * @param $width int
+	 */
+	public function setWidth($width)
+	{
+		$this->width = $width;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getWidth()
+	{
+		return $this->width;
 	}
 
 	/**

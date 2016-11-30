@@ -1,8 +1,8 @@
-<table class="form">
+<table class="form" <?php if ($this->getWidth()): ?> style='width:<?= $this->getWidth() ?>%'<?php endif; ?>>
 	<thead>
 		<tr>
 			<?php foreach ($this->columns as $column): ?>
-			<th class=label style='width:200px'> <?= $column->getTitle() ?></th>
+			<th class=label <?php if ($column->getWidth()): ?> style='width:<?= $column->getWidth() ?>%'<?php endif; ?>><?= $column->getTitle() ?></th>
 			<?php endforeach; ?>
 		</tr>
 	</thead>

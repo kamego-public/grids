@@ -15,13 +15,13 @@ class GridColumn
 {
 
 	/** @var string Column id. */
-	protected $id;
+	private $id;
 
 	/** @var string Column title */
-	protected $title;
+	private $title;
 
-	/** @var int Column width */
-	protected $width;
+	/** @var int Column width percentage */
+	private $width;
 
 	/**
 	 * Constructor.
@@ -32,6 +32,7 @@ class GridColumn
 	{
 		$this->id = $id;
 		$this->title = $title;
+		$this->width = null;
 	}
 
 	/**
@@ -71,7 +72,7 @@ class GridColumn
 	 */
 	public function getWidth()
 	{
-		$this->width = $width;
+		return $this->width;
 	}
 }
 ?>
