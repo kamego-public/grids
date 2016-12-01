@@ -23,12 +23,6 @@ class Grid
 	/** @var array Grid columns. */
 	private $columns;
 
-	/** @var string The column id to be used to generate total value. */
-	private $totalColumnId = null;
-
-	/** @var int The total value for an specific column. */
-	private $totalValue;
-
 	/** @var Recordset Grid data. */
 	private $data;
 
@@ -46,18 +40,9 @@ class Grid
 	{
 		$this->id = $id;
 		$this->title = $title;
-		$this->columns = $columns;
+		$this->columns = $this->resetColumns($columns);
 		$this->data = $data;
 		$this->width = null;
-	}
-
-	/**
-	 * Set the column to be used to generate total value.
-	 * @param $columnId string One of the grid columns id.
-	 */
-	public function setTotalColumnId($columnId)
-	{
-		$this->totalColumnId = $columnId;
 	}
 
 	/**
@@ -74,14 +59,6 @@ class Grid
 	public function getWidth()
 	{
 		return $this->width;
-	}
-
-	/**
-	 * Get the total value for the total column id.
-	 * @return int
-	 */
-	public function getTotalValue() {
-		return $this->totalValue;
 	}
 
 	/**
@@ -115,22 +92,47 @@ class Grid
 		// FIXME: see issue #1
 		$value = $row->$columnId;
 
-		if (!is_null($this->totalColumnId) && $this->totalColumnId == $columnId)
+		if ($column->getShowTotal())
 		{
-			$this->totalValue += $value;
+			$column->setTotalValue($column->getTotalValue() + $value);
 		}
 
 		return $value;
 	}
 
 	/**
-	 * Get the colspan value for the footer to
-	 *  correctly present the total values.
-	 * @return int
+	 * Whether or not to show the footer.
+	 * @return boolean
 	 */
-	private function getFooterColspan()
+	private function showFooter()
 	{
-		return count($this->columns) - 1;
+		$showFooter = false;
+		// Check if any column wants to show the total.
+		foreach ($this->columns as $column)
+		{
+			if ($column->getShowTotal())
+			{
+				$showFooter = true;
+				break;
+			}
+		}
+
+		return $showFooter;
+	}
+
+	/**
+	 * Call reset methods on every column.
+	 * @param $columns array
+	 * @return array
+	 */
+	private function resetColumns($columns)
+	{
+		foreach ($columns as $column)
+		{
+			$column->resetColumn();
+		}
+
+		return $columns;
 	}
 }
 ?>

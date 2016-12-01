@@ -23,15 +23,23 @@ class GridColumn
 	/** @var int Column width percentage */
 	private $width;
 
+	/** @var boolean Show total flag */
+	private $showTotal;
+
+	/** @var boolean Total value */
+	private $totalValue;
+
 	/**
 	 * Constructor.
 	 * @param $id string Colum id.
 	 * @param $title string Column title used in UI.
+	 * @param $showTotal boolean Whether to show total value or not.
 	 */
-	public function __construct($id, $title)
+	public function __construct($id, $title, $showTotal = false)
 	{
 		$this->id = $id;
 		$this->title = $title;
+		$this->showTotal = $showTotal;
 		$this->width = null;
 	}
 
@@ -73,6 +81,40 @@ class GridColumn
 	public function getWidth()
 	{
 		return $this->width;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowTotal()
+	{
+		return $this->showTotal;
+	}
+
+	/**
+	 * @param $totalValue int
+	 */
+	public function setTotalValue($totalValue)
+	{
+		$this->totalValue = $totalValue;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getTotalValue()
+	{
+		return $this->totalValue;
+	}
+
+	/**
+	 * Perform any operation needed to make sure
+	 *  this object is not carrying any state from
+	 *  previous usage.
+	 */
+	public function resetColumn()
+	{
+		$this->totalValue = 0;
 	}
 }
 ?>

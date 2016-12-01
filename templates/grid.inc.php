@@ -2,7 +2,7 @@
 	<thead>
 		<tr>
 			<?php foreach ($this->columns as $column): ?>
-			<th class=label <?php if ($column->getWidth()): ?> style='width:<?= $column->getWidth() ?>%'<?php endif; ?>><?= $column->getTitle() ?></th>
+				<th class=label <?php if ($column->getWidth()): ?> style='width:<?= $column->getWidth() ?>%'<?php endif; ?>><?= $column->getTitle() ?></th>
 			<?php endforeach; ?>
 		</tr>
 	</thead>
@@ -16,11 +16,18 @@
 		<?php endwhile; ?>
 	</tbody>
 
-	<?php if (!is_null($this->totalColumnId)): ?>
+	<?php if ($this->showFooter()): ?>
 	<tfoot>
 		<tr>
-			<td colspan="<?= $this->getFooterColspan() ?>">Total: </td>
-			<td><?= $this->getTotalValue() ?></td>
+			<td>Total: </td>
+			<?php foreach ($this->columns as $index => $column): ?>
+				<?php if ($index === 0) continue; ?>
+				<?php if ($column->getShowTotal()): ?>
+					<td><?= $column->getTotalValue() ?></td>
+				<?php else: ?>
+					<td></td>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</tr>
 	</tfoot>
 	<?php endif; ?>
