@@ -19,7 +19,7 @@
 	<?php if (!is_null($this->totalColumnId)): ?>
 	<tfoot>
 		<tr>
-			<td>Total: </td>
+			<td colspan="<?= $this->getFooterColspan() ?>">Total: </td>
 			<td><?= $this->getTotalValue() ?></td>
 		</tr>
 	</tfoot>

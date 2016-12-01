@@ -122,5 +122,15 @@ class Grid
 
 		return $value;
 	}
+
+	/**
+	 * Get the colspan value for the footer to
+	 *  correctly present the total values.
+	 * @return int
+	 */
+	private function getFooterColspan()
+	{
+		return count($this->columns) - 1;
+	}
 }
 ?>
