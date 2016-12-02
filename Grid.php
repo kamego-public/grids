@@ -34,15 +34,34 @@ class Grid
 	 * @param $id string Grid id.
 	 * @param $title string Grid title used in UI.
 	 * @param $columns array Elements need to be instances of GridColumn.
-	 * @param $data Recordset
+	 * @param $recordSet Recordset
 	 */
-	public function __construct($id, $title, $columns, $data)
+	public function __construct($id, $title, $columns, $recordSet)
 	{
 		$this->id = $id;
 		$this->title = $title;
 		$this->columns = $this->resetColumns($columns);
-		$this->data = $data;
+		$this->recordSet = $recordSet;
 		$this->width = null;
+		$this->displayRowTotals = true;
+		$this->rows = array();
+
+		$this->setupRows($recordSet, $this->columns);
+	}
+
+	/**
+	 * setupRows
+	 * @param $recordSet
+	 * @param $columns
+	 */
+	private function setupRows($recordSet, $columns)
+	{
+		$recordSet->findFirstRow();
+		$this->rows = array();
+		while($row = $recordSet->getRow())
+		{
+			$this->rows[] = new GridRow($row, $columns, true);
+		}
 	}
 
 	/**
@@ -68,7 +87,7 @@ class Grid
 	public function render()
 	{
 		// FIXME: see issue #1
-		$this->data->findFirstRow();
+		$this->recordSet->findFirstRow();
 
 		ob_start();
 		include(dirname(__FILE__) . '/templates/grid.inc.php');
@@ -78,45 +97,44 @@ class Grid
 		return $display;
 	}
 
-	/**
-	 * Returns the row value and also checks for the total column
-	 *  id, if it matches the passed column, sum up the row value.
-	 * @var $column GridColumn
-	 * @var $row RowModel
-	 * @return mixed The passed row value for the passed column.
-	 */
-	public function getRowValueByColumn($column, $row)
+	public function getColumnTotal($column)
 	{
-		$columnId = $column->getId();
-
-		// FIXME: see issue #1
-		$value = $row->$columnId;
-
-		if ($column->getShowTotal())
+		$total = 0;
+		foreach ($this->rows as $row)
 		{
-			$column->setTotalValue($column->getTotalValue() + $value);
+			$total += $row->getValueByColumn($column);
 		}
-
-		return $value;
+		return $total;
+	}
+	/**
+	 * @return int
+	 */
+	public function getGrandTotal()
+	{
+		$total = 0;
+		foreach ($this->rows as $row)
+		{
+			$total += $row->getRowTotal();
+		}
+		return $total;
 	}
 
 	/**
 	 * Whether or not to show the footer.
 	 * @return boolean
 	 */
-	private function showFooter()
+	protected function showFooter()
 	{
 		$showFooter = false;
 		// Check if any column wants to show the total.
 		foreach ($this->columns as $column)
 		{
-			if ($column->getShowTotal())
+			if ($column->getShowRowsTotal())
 			{
 				$showFooter = true;
 				break;
 			}
 		}
-
 		return $showFooter;
 	}
 
@@ -125,7 +143,7 @@ class Grid
 	 * @param $columns array
 	 * @return array
 	 */
-	private function resetColumns($columns)
+	protected function resetColumns($columns)
 	{
 		foreach ($columns as $column)
 		{

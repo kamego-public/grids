@@ -14,33 +14,44 @@ namespace Kamego\Grids;
 class GridColumn
 {
 
-	/** @var string Column id. */
-	private $id;
+	/** @var string Column columnName. */
+	protected $columnName;
 
 	/** @var string Column title */
-	private $title;
+	protected $title;
 
 	/** @var int Column width percentage */
-	private $width;
+	protected $width;
 
 	/** @var boolean Show total flag */
-	private $showTotal;
+	protected $showTotal;
 
 	/** @var boolean Total value */
-	private $totalValue;
+	protected $totalValue;
+
+	/** @var bool  */
+	protected $excludeFromTotal = false;
 
 	/**
 	 * Constructor.
-	 * @param $id string Colum id.
+	 * @param $columnName string Column id.
 	 * @param $title string Column title used in UI.
-	 * @param $showTotal boolean Whether to show total value or not.
+	 * @param $showTotalRows boolean Whether to show total value or not.
 	 */
-	public function __construct($id, $title, $showTotal = false)
+	public function __construct($columnName, $title, $showRowsTotal = false)
 	{
-		$this->id = $id;
+		$this->columnName = $columnName;
 		$this->title = $title;
-		$this->showTotal = $showTotal;
+		$this->showRowsTotal = $showRowsTotal;
 		$this->width = null;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getColumnName()
+	{
+		return $this->columnName;
 	}
 
 	/**
@@ -57,14 +68,6 @@ class GridColumn
 	public function setTitle($title)
 	{
 		$this->title = $title;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getId()
-	{
-		return $this->id;
 	}
 
 	/**
@@ -86,9 +89,9 @@ class GridColumn
 	/**
 	 * @return boolean
 	 */
-	public function getShowTotal()
+	public function getShowRowsTotal()
 	{
-		return $this->showTotal;
+		return $this->showRowsTotal;
 	}
 
 	/**
@@ -105,6 +108,22 @@ class GridColumn
 	public function getTotalValue()
 	{
 		return $this->totalValue;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function excludeFromTotal()
+	{
+		return $this->excludeFromTotal;
+	}
+
+	/**
+	 * @param $excludeFromTotal
+	 */
+	public function setExcludeFromTotal($excludeFromTotal)
+	{
+		$this->excludeFromTotal = $excludeFromTotal == true;
 	}
 
 	/**
