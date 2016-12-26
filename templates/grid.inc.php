@@ -10,15 +10,22 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php foreach ($this->rows as $row): ?>
-			<tr>
-			<?php foreach ($this->columns as $column): ?>
-				<td><?php echo $row->getValueByColumn($column); ?></td>
-			<?php endforeach; ?>
-            <?php if ($this->displayRowTotals): ?>
-                <td><?php echo $row->getRowTotal(); ?></td>
+		<?php foreach ($this->categories as $category): ?>
+			<?php if ($category->getId() !== 'default'): ?>
+				<tr>
+					<td class="category" colspan="<?php echo $this->getColumnsCount() ?>"><?php echo $category->getTitle() ?> </td>
+				</tr>
 			<?php endif; ?>
-			</tr>
+			<?php foreach ($this->rows[$category->getId()] as $row): ?>
+				<tr>
+				<?php foreach ($this->columns as $column): ?>
+					<td><?php echo $row->getValueByColumn($column); ?></td>
+				<?php endforeach; ?>
+				<?php if ($this->displayRowTotals): ?>
+					<td><?php echo $row->getRowTotal(); ?></td>
+				<?php endif; ?>
+				</tr>
+			<?php endforeach; ?>
 		<?php endforeach; ?>
 	</tbody>
 

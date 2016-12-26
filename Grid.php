@@ -23,6 +23,9 @@ class Grid
 	/** @var array Grid columns. */
 	private $columns;
 
+	/** @var array Categories. */
+	private $categories;
+
 	/** @var Recordset Grid data. */
 	private $data;
 
@@ -37,14 +40,16 @@ class Grid
 	 * @param $id string Grid id.
 	 * @param $title string Grid title used in UI.
 	 * @param $columns array Elements need to be instances of GridColumn.
-	 * @param $recordSet Recordset
+	 * @param $recordSet Recordset optional Can be null if categories are used.
+	 * @param $categories Array GridCategory objects, each with its own record sets.
 	 */
-	public function __construct($id, $title, $columns, $recordSet)
+	public function __construct($id, $title, $columns, $recordSet = null, $categories = array())
 	{
 		$this->id = $id;
 		$this->title = $title;
 		$this->columns = $this->resetColumns($columns);
 		$this->recordSet = $recordSet;
+		$this->categories = $categories;
 		$this->width = null;
 		$this->displayRowTotals = true;
 		$this->rows = array();
@@ -60,11 +65,15 @@ class Grid
 	 */
 	private function setupRows($recordSet, $columns)
 	{
-		$recordSet->findFirstRow();
-		$this->rows = array();
-		while($row = $recordSet->getRow())
+		if ($this->recordSet)
 		{
-			$this->rows[] = new GridRow($row, $columns, true);
+			$category = new GridCategory('default', 'default', $this->recordSet);
+			array_unshift($this->categories, $category);
+		}
+
+		foreach ($this->categories as $category)
+		{
+			$this->createRows($category->getId(), $category->getRecordSet());
 		}
 	}
 
@@ -106,9 +115,6 @@ class Grid
 	 */
 	public function render()
 	{
-		// FIXME: see issue #1
-		$this->recordSet->findFirstRow();
-
 		ob_start();
 		include(dirname(__FILE__) . '/templates/grid.inc.php');
 		$display = ob_get_contents();
@@ -171,6 +177,37 @@ class Grid
 		}
 
 		return $columns;
+	}
+
+	/**
+	 * Get the number of columns this grid will render.
+	 * @return int
+	 */
+	protected function getColumnsCount()
+	{
+		$columnsCount = count($this->columns);
+		if ($this->displayRowTotals)
+		{
+			$columnsCount++;
+		}
+
+		return $columnsCount;
+	}
+
+	/**
+	 * Create the grid row objects.
+	 * @param $categoryId string
+	 * @param $recordSet RecordSet
+	 */
+	private function createRows($categoryId, $recordSet)
+	{
+		$columns = $this->columns;
+		$recordSet->findFirstRow();
+		$this->rows[$categoryId] = array();
+		while($row = $recordSet->getRow())
+		{
+			$this->rows[$categoryId][] = new GridRow($row, $columns, true);
+		}
 	}
 }
 ?>
