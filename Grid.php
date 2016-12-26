@@ -32,6 +32,9 @@ class Grid
 	/** @var int Grid width percentage. */
 	private $width;
 
+	/** @var boolean Display row totals flag */
+	private $displayRowTotals;
+
 	/** @var string Total column title. */
 	private $totalColumnTitle;
 
@@ -51,11 +54,20 @@ class Grid
 		$this->recordSet = $recordSet;
 		$this->categories = $categories;
 		$this->width = null;
-		$this->displayRowTotals = true;
+		$this->setDisplayRowTotals(true);
 		$this->rows = array();
 		$this->setTotalColumnTitle('Total');
 
 		$this->setupRows($recordSet, $this->columns);
+	}
+
+	/**
+	 * Set the display row totals flag.
+	 * @param $displayRowTotals boolean
+	 */
+	public function setDisplayRowTotals($displayRowTotals)
+	{
+		$this->displayRowTotals = (boolean) $displayRowTotals;
 	}
 
 	/**
