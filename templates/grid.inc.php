@@ -5,7 +5,7 @@
 				<th class=label <?php if ($column->getWidth()): ?> style='width:<?php echo $column->getWidth() ?>%'<?php endif; ?>><?php echo $column->getTitle() ?></th>
 			<?php endforeach; ?>
 			<?php if ($this->displayRowTotals): ?>
-                <th class=label>Total</th>
+                <th class=label><?php echo $this->getTotalColumnTitle() ?></th>
 			<?php endif; ?>
 		</tr>
 	</thead>

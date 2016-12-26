@@ -29,6 +29,9 @@ class Grid
 	/** @var int Grid width percentage. */
 	private $width;
 
+	/** @var string Total column title. */
+	private $totalColumnTitle;
+
 	/**
 	 * Constructor.
 	 * @param $id string Grid id.
@@ -45,6 +48,7 @@ class Grid
 		$this->width = null;
 		$this->displayRowTotals = true;
 		$this->rows = array();
+		$this->setTotalColumnTitle('Total');
 
 		$this->setupRows($recordSet, $this->columns);
 	}
@@ -78,6 +82,22 @@ class Grid
 	public function getWidth()
 	{
 		return $this->width;
+	}
+
+	/**
+	 * @param string
+	 */
+	public function setTotalColumnTitle($totalColumnTitle)
+	{
+		$this->totalColumnTitle = $totalColumnTitle;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getTotalColumnTitle()
+	{
+		return $this->totalColumnTitle;
 	}
 
 	/**
