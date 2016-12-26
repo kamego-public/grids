@@ -16,6 +16,11 @@
 					<td class="category" colspan="<?php echo $this->getColumnsCount() ?>"><?php echo $category->getTitle() ?> </td>
 				</tr>
 			<?php endif; ?>
+			<?php if (empty($this->rows[$category->getId()])): ?>
+				<tr>
+					<td colspan="<?php echo $this->getColumnsCount() ?>"><?php echo $this->getEmptyGridText() ?></td>
+				</tr>
+			<?php endif; ?>
 			<?php foreach ($this->rows[$category->getId()] as $row): ?>
 				<tr>
 				<?php foreach ($this->columns as $column): ?>

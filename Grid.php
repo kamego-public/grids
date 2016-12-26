@@ -38,6 +38,9 @@ class Grid
 	/** @var string Total column title. */
 	private $totalColumnTitle;
 
+	/** @var string Text presented when no rows are available. */
+	private $emptyGridText;
+
 	/**
 	 * Constructor.
 	 * @param $id string Grid id.
@@ -57,8 +60,25 @@ class Grid
 		$this->setDisplayRowTotals(true);
 		$this->rows = array();
 		$this->setTotalColumnTitle('Total');
+		$this->setEmptyGridText('No data.');
 
 		$this->setupRows($recordSet, $this->columns);
+	}
+
+	/**
+	 * @param $emptyGridText string
+	 */
+	public function setEmptyGridText($emptyGridText)
+	{
+		$this->emptyGridText = $emptyGridText;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getEmptyGridText()
+	{
+		return $this->emptyGridText;
 	}
 
 	/**
