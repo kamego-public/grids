@@ -158,9 +158,12 @@ class Grid
 	public function getColumnTotal($column)
 	{
 		$total = 0;
-		foreach ($this->rows as $row)
+		foreach ($this->rows as $categoryId => $rows)
 		{
-			$total += $row->getValueByColumn($column);
+			foreach ($rows as $row)
+			{
+				$total += $row->getValueByColumn($column);
+			}
 		}
 		return $total;
 	}
@@ -170,9 +173,12 @@ class Grid
 	public function getGrandTotal()
 	{
 		$total = 0;
-		foreach ($this->rows as $row)
+		foreach ($this->rows as $categoryId => $rows)
 		{
-			$total += $row->getRowTotal();
+			foreach ($rows as $row)
+			{
+				$total += $row->getRowTotal();
+			}
 		}
 		return $total;
 	}
