@@ -45,6 +45,17 @@ class GridRow
 	}
 
 	/**
+	 * Extend this method if returning more than just the
+	 *  grid row value is necessary.
+	 * @param $column GridColumn
+	 * @return string Grid row content for the passed column.
+	 */
+	public function getContent($column)
+	{
+		return $this->getValueByColumn($column);
+	}
+
+	/**
 	 * Sums up a total of each column in the row
 	 * @return int
 	 */

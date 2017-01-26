@@ -24,7 +24,7 @@
 			<?php foreach ($this->rows[$category->getId()] as $row): ?>
 				<tr>
 				<?php foreach ($this->columns as $column): ?>
-					<td><?php echo $row->getValueByColumn($column); ?></td>
+					<td><?php echo $row->getContent($column); ?></td>
 				<?php endforeach; ?>
 				<?php if ($this->displayRowTotals): ?>
 					<td><?php echo $row->getRowTotal(); ?></td>
