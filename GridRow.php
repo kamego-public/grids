@@ -55,8 +55,7 @@ class GridRow
 		{
 			if(!$column->excludeFromTotal())
 			{
-				$columnName = $column->getColumnName();
-				$total += $this->row->$columnName;
+				$total += $this->getValueByColumn($column);
 			}
 		}
 		return $total;
