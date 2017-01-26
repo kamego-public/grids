@@ -11,6 +11,8 @@
 
 namespace Kamego\Grids;
 
+define('GRID_ROW_DEFAULT_CLASS_NAME', 'Kamego\\Grids\\GridRow');
+
 class Grid
 {
 
@@ -41,15 +43,19 @@ class Grid
 	/** @var string Text presented when no rows are available. */
 	private $emptyGridText;
 
+	/** @var string Grid row class name */
+	private $rowClass;
+
 	/**
 	 * Constructor.
 	 * @param $id string Grid id.
 	 * @param $title string Grid title used in UI.
 	 * @param $columns array Elements need to be instances of GridColumn.
 	 * @param $recordSet Recordset optional Can be null if categories are used.
-	 * @param $categories Array GridCategory objects, each with its own record sets.
+	 * @param $categories Array optional GridCategory objects, each with its own record sets.
+	 * @param $gridRowClassName string optional Custom grid row class name.
 	 */
-	public function __construct($id, $title, $columns, $recordSet = null, $categories = array())
+	public function __construct($id, $title, $columns, $recordSet = null, $categories = array(), $gridRowClassName = GRID_ROW_DEFAULT_CLASS_NAME)
 	{
 		$this->id = $id;
 		$this->title = $title;
@@ -61,6 +67,7 @@ class Grid
 		$this->rows = array();
 		$this->setTotalColumnTitle('Total');
 		$this->setEmptyGridText('No data.');
+		$this->setGridRowClass($gridRowClassName);
 
 		$this->setupRows($recordSet, $this->columns);
 	}
@@ -79,6 +86,22 @@ class Grid
 	public function getEmptyGridText()
 	{
 		return $this->emptyGridText;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getGridRowClass()
+	{
+		return $this->rowClass;
+	}
+
+	/**
+	 * @param $gridRowClass string
+	 */
+	public function setGridRowClass($gridRowClass)
+	{
+		$this->rowClass = $gridRowClass;
 	}
 
 	/**
@@ -244,7 +267,13 @@ class Grid
 		$this->rows[$categoryId] = array();
 		while($row = $recordSet->getRow())
 		{
-			$this->rows[$categoryId][] = new GridRow($row, $columns, true);
+			$gridRowClassName = GRID_ROW_DEFAULT_CLASS_NAME;
+			if (class_exists($this->getGridRowClass()))
+			{
+				$gridRowClassName = $this->getGridRowClass();
+			}
+
+			$this->rows[$categoryId][] = new $gridRowClassName($row, $columns, true);
 		}
 	}
 }
