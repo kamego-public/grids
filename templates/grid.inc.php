@@ -31,21 +31,18 @@
 				<?php endif; ?>
 				</tr>
 			<?php endforeach; ?>
+			<?php if ($this->showFooter()): ?>
+				<tr class="categoryFooter">
+					<?php $category; include('rowsTotal.inc.php'); ?>
+				</tr>
+			<?php endif; ?>
 		<?php endforeach; ?>
 	</tbody>
 
 	<?php if ($this->showFooter()): ?>
 	<tfoot>
 		<tr>
-			<td>Total: </td>
-			<?php foreach ($this->columns as $index => $column): ?>
-				<?php if ($index === 0) continue; ?>
-				<?php if ($column->getShowRowsTotal()): ?>
-					<td><?php echo $this->getColumnTotal($column) ?></td>
-				<?php else: ?>
-					<td></td>
-				<?php endif; ?>
-			<?php endforeach; ?>
+			<?php $category = null; include('rowsTotal.inc.php'); ?>
 			<?php if ($this->displayRowTotals): ?>
                 <td><?php echo $this->getGrandTotal(); ?></td>
 			<?php endif; ?>

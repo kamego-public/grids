@@ -178,11 +178,20 @@ class Grid
 		return $display;
 	}
 
-	public function getColumnTotal($column)
+	/**
+	 * @param $column GridColumn
+	 * @param $category GridCategory optional If restricted to a category.
+	 * @return int Column rows total.
+	 */
+	public function getColumnTotal($column, $category = null)
 	{
 		$total = 0;
 		foreach ($this->rows as $categoryId => $rows)
 		{
+			if ($category && $categoryId !== $category->getId())
+			{
+				continue;
+			}
 			foreach ($rows as $row)
 			{
 				$total += $row->getValueByColumn($column);
