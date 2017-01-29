@@ -19,6 +19,9 @@ class GridCategory
 	/** @var string Grid category title. */
 	private $title;
 
+	/** @var boolean Whether to show the footer or not. */
+	private $showFooter;
+
 	/** @var RecordSet Data associated with the category. */
 	private $recordSet;
 
@@ -26,12 +29,15 @@ class GridCategory
 	 * Constructor.
 	 * @param $id string
 	 * @param $title string
+	 * @param $recordSet RecordSet
+	 * @param $showFooter boolean
 	 */
-	public function __construct($id, $title, $recordSet)
+	public function __construct($id, $title, $recordSet, $showFooter = null)
 	{
 		$this->id = $id;
 		$this->title = $title;
 		$this->recordSet = $recordSet;
+		$this->setShowFooter($showFooter);
 	}
 
 	//
@@ -59,6 +65,22 @@ class GridCategory
 	public function getRecordSet()
 	{
 		return $this->recordSet;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getShowFooter()
+	{
+		return $this->showFooter;
+	}
+
+	/**
+	 * @param $showFooter boolean
+	 */
+	public function setShowFooter($showFooter)
+	{
+		$this->showFooter = $showFooter;
 	}
 }
 

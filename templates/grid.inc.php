@@ -31,7 +31,7 @@
 				<?php endif; ?>
 				</tr>
 			<?php endforeach; ?>
-			<?php if ($this->showFooter()): ?>
+			<?php if ($category->getShowFooter()): ?>
 				<tr class="categoryFooter">
 					<?php $category; include('rowsTotal.inc.php'); ?>
 				</tr>

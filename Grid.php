@@ -70,6 +70,7 @@ class Grid
 		$this->setGridRowClass($gridRowClassName);
 
 		$this->setupRows($recordSet, $this->columns);
+		$this->setupCategories();
 	}
 
 	/**
@@ -129,6 +130,27 @@ class Grid
 		foreach ($this->categories as $category)
 		{
 			$this->createRows($category->getId(), $category->getRecordSet());
+		}
+	}
+
+	/**
+	 * Perform any required actions to setup categories.
+	 */
+	private function setupCategories()
+	{
+		foreach ($this->categories as $category)
+		{
+			// Grid footer will be enough without client defined categories.
+			if ($category->getId() == 'default')
+			{
+				$category->setShowFooter(false);
+			}
+
+			// Default to the grid if no flag was defined.
+			if (is_null($category->getShowFooter()))
+			{
+				$category->setShowFooter($this->showFooter());
+			}
 		}
 	}
 
