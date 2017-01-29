@@ -115,6 +115,14 @@ class Grid
 	}
 
 	/**
+	 * @return array With GridColumn as elements.
+	 */
+	public function getColumns()
+	{
+		return $this->columns;
+	}
+
+	/**
 	 * setupRows
 	 * @param $recordSet
 	 * @param $columns
@@ -221,6 +229,26 @@ class Grid
 		}
 		return $total;
 	}
+
+	/**
+	 * Get all row values by column.
+	 * @param $column GridColumn
+	 * @return array
+	 */
+	public function getAllValuesByColumn($column)
+	{
+		$allValues = array();
+		foreach ($this->rows as $categoryId => $rows)
+		{
+			foreach ($rows as $row)
+			{
+				$allValues[] = $row->getValueByColumn($column);
+			}
+		}
+
+		return $allValues;
+	}
+
 	/**
 	 * @return int
 	 */
