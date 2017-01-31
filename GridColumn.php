@@ -23,6 +23,9 @@ class GridColumn
 	/** @var int Column width percentage */
 	protected $width;
 
+	/** @var string Center, left or right. */
+	protected $alignFlag;
+
 	/** @var boolean Show total flag */
 	protected $showTotal;
 
@@ -44,6 +47,7 @@ class GridColumn
 		$this->title = $title;
 		$this->showRowsTotal = $showRowsTotal;
 		$this->width = null;
+		$this->setAlignFlag('left');
 	}
 
 	/**
@@ -71,19 +75,19 @@ class GridColumn
 	}
 
 	/**
-	 * @param $width int
-	 */
-	public function setWidth($width)
-	{
-		$this->width = $width;
-	}
-
-	/**
 	 * @return int
 	 */
 	public function getWidth()
 	{
 		return $this->width;
+	}
+
+	/**
+	 * @param $width int
+	 */
+	public function setWidth($width)
+	{
+		$this->width = $width;
 	}
 
 	/**
@@ -95,19 +99,19 @@ class GridColumn
 	}
 
 	/**
-	 * @param $totalValue int
-	 */
-	public function setTotalValue($totalValue)
-	{
-		$this->totalValue = $totalValue;
-	}
-
-	/**
 	 * @return int
 	 */
 	public function getTotalValue()
 	{
 		return $this->totalValue;
+	}
+
+	/**
+	 * @param $totalValue int
+	 */
+	public function setTotalValue($totalValue)
+	{
+		$this->totalValue = $totalValue;
 	}
 
 	/**
@@ -124,6 +128,22 @@ class GridColumn
 	public function setExcludeFromTotal($excludeFromTotal)
 	{
 		$this->excludeFromTotal = $excludeFromTotal == true;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getAlignFlag()
+	{
+		return $this->alignFlag;
+	}
+
+	/**
+	 * @param $flag int
+	 */
+	public function setAlignFlag($flag)
+	{
+		$this->alignFlag = $flag;
 	}
 
 	/**

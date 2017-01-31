@@ -24,7 +24,7 @@
 			<?php foreach ($this->rows[$category->getId()] as $row): ?>
 				<tr>
 				<?php foreach ($this->columns as $column): ?>
-					<td><?php echo $row->getContent($column); ?></td>
+					<td style="text-align: <?php echo $column->getAlignFlag(); ?>"><?php echo $row->getContent($column); ?></td>
 				<?php endforeach; ?>
 				<?php if ($this->displayRowTotals): ?>
 					<td><?php echo $row->getRowTotal(); ?></td>

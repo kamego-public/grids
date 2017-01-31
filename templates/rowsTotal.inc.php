@@ -4,7 +4,7 @@
 <?php if (isset($category)) $column = null; ?>
 
 <?php foreach ($this->columns as $index => $column): ?>
-	<td>
+	<td style="text-align: <?php echo $column->getAlignFlag(); ?>">
 		<?php if ($column->getShowRowsTotal()): ?>
 			<?php echo $this->getColumnTotal($column, $category) ?></td>
 		<?php endif; ?>
